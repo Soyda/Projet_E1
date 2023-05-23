@@ -1,0 +1,26 @@
+{% block content %}
+    <h1>Files Uploaded</h1>
+    <ul>
+        {% for file in file_names %}
+            <li>{{ file.name }}</li>
+            <table border="1">
+                <thead>
+                    <tr>
+                        {% for value in file.first_4_rows.0 %}
+                            <th>{{ value }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in file.first_4_rows|slice:"1:" %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </ul>
+{% endblock %}

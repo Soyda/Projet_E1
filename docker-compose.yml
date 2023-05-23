@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code 
+
+    depends_on:
+      - db
+  db:
+    # image: postgres:13
+    image: postgres:14.0
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:7894"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+
+  api:
+    build: ./api
+    ports:
+      - "8080:8080"
+    command: uvicorn main:app --host 0.0.0.0 --port 8080 --reload
+    volumes:
+      - ./api:/code
+
+volumes:
+  postgres_data: 
+    
