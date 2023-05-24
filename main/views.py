@@ -7,6 +7,9 @@ from django.urls import reverse_lazy
 import requests
 import pandas as pd
 import os
+from django.utils.html import mark_safe
+
+URL_API = "http://host.docker.internal:8080"
 
 @register.filter # pour pouvoir utiliser range dans le template
 def get_range(start=0,value=0):
@@ -16,7 +19,7 @@ def get_range(start=0,value=0):
 
 @login_required
 def login_required_view(request):
-    response = requests.get('http://host.docker.internal:8080').json()
+    response = requests.get(URL_API).json()
     return render(request, 'main/login_required_page.html', {'response': response})
 
 def test_form(request):
@@ -57,7 +60,9 @@ class FileFieldFormView(FormView):
                 if file_extension.lower() in ['.csv']:
                     df = pd.read_csv(f, nrows=4, header=None)
                 elif file_extension.lower() in ['.xls', '.xlsx']:
-                    df = pd.read_excel(f, nrows=4, header=None)
+                    df = pd.read_excel(f, nrows=4, header=None, engine='openpyxl')
+                    date_column = df.select_dtypes(include=['datetime64']).columns
+                    df[date_column] = df[date_column].astype(str)
                 else:
                     continue  # Skip unsupported file types
 
@@ -83,7 +88,10 @@ def add_file_done(request):
     
 @login_required
 def see_verbatims(request):
-    pass
+    response = requests.get(f"{URL_API}/verbatims/").json()
+    # response = requests.get(f"{URL_API}/structures/").json()
+    df_html = mark_safe(pd.DataFrame(response).to_html())
+    return render(request, 'main/see_verbatims.html', {'df_html': df_html})
 
 @login_required
 def stats_verbatims(request):

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from django_project.custom_json_encoder import CustomJSONEncoder
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,3 +154,6 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 # EMAIL_USE_SSL = True
 # EMAIL_HOST_USER = 'your@djangoapp.com'
 # EMAIL_HOST_PASSWORD = 'your password'
+
+# Set the default JSON encoder
+json.JSONEncoder.default = CustomJSONEncoder().default
