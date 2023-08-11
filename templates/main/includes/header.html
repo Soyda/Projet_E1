@@ -1,39 +1,71 @@
 <header class="p-3 text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        {% comment %} logo bpn {% endcomment %}
+        {% comment %} <path xmlns="http://www.w3.org/2000/svg" class="st0" d="M529.9,0h-95.4l-39.5,39.5c-0.7,0.7-1.1,1.7-1.1,2.8v22.6h23.3V42.1c0-0.6,0.5-1.1,1.1-1.1h12.7     c0.6,0,1.1,0.5,1.1,1.1v22.7h22.6c0.6,0,1.1,0.5,1.1,1.1v12.7c0,0.6-0.5,1.1-1.1,1.1h-22.6v22.7c0,0.6-0.5,1.1-1.1,1.1h-12.7     c-0.6,0-1.1-0.5-1.1-1.1V79.8h-23.3v54.9c0,2.2,1.8,3.9,3.9,3.9h92.5c1,0,2-0.4,2.8-1.1L532.5,98V2.6C532.5,1.2,531.4,0,529.9,0z      M512.9,103.6h-15.2c-0.3,0-0.6-0.1-0.8-0.4l-14.2-19.2l-14.2,19.2c-0.2,0.3-0.5,0.4-0.8,0.4h-15c-0.9,0-1.4-1-0.8-1.7l21.6-29.2     c0.3-0.4,0.3-0.9,0-1.3L451.7,42c-0.3-0.4,0-1,0.5-1h15.9c0.3,0,0.7,0.2,0.8,0.4L482.7,60l13.7-18.7c0.2-0.3,0.5-0.4,0.8-0.4h16     c0.5,0,0.8,0.6,0.5,1L492,71.5c-0.3,0.3-0.3,0.8,0,1.2l21.7,29.4C514.2,102.6,513.7,103.6,512.9,103.6z"/> {% endcomment %}
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
         </a>
 
         {% url 'home'  as url_home %}
-        {% url 'about'  as about %}
+        {% url 'main:see_verbatims' as url_see_verbatims %}
+        {% url 'main:add_file' as url_add_file %}
+        {% url 'main:test_form' as url_test_form %}
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             {% if request.path == url_home %}
-            <li><a href={% url 'home' %} class="nav-link px-2 text-secondary">Home</a></li>
+            <li><a href={% url 'home' %} class="nav-link px-2 text-secondary" style="color: grey !important;">Home</a></li>
             {% else %}
-            <li><a href={% url 'home' %} class="nav-link px-2 text-secondary">Pas Home</a></li>
+            <li><a href={% url 'home' %} class="nav-link px-2 text-secondary" style="color: white !important;">Home</a></li>
             {% endif %}
-          <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-          <li><a href={% url 'about' %} class="nav-link px-2 text-white">About</a></li>
+            
+            {% if request.path == url_test_form %}
+            <li><a href= {% url 'main:test_form' %} class="nav-link px-2 text-white" style="color: grey !important;">Prédiction unique</a></li>
+            {% else %}
+            <li><a href= {% url 'main:test_form' %} class="nav-link px-2 text-white" style="color: white !important;">Prédiction unique</a></li>
+            {% endif %}
+
+            {% if request.path == url_see_verbatims %}
+            <li><a href= {% url 'main:see_verbatims' %} class="nav-link px-2 text-white" style="color: grey !important;">Lire les verbatims</a></li>
+            {% else %}
+            <li><a href= {% url 'main:see_verbatims' %} class="nav-link px-2 text-white" style="color: white !important;">Lire les verbatims</a></li>
+            {% endif %}
+            
+            {% if request.path == url_add_file %}
+            <li><a href= {% url 'main:add_file' %} class="nav-link px-2 text-white" style="color: grey !important;">Ajouter des fichiers</a></li>
+            {% else %}
+            <li><a href= {% url 'main:add_file' %} class="nav-link px-2 text-white" style="color: white !important;">Ajouter des fichiers</a></li>
+            {% endif %}
+            
+          {% comment %} <li><a href={% url 'about' %} class="nav-link px-2 text-white">About</a></li> {% endcomment %}
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-        </form>
-
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" class="btn btn-warning">Sign-up</button>
+          {% if user.is_authenticated %}
+            <button type="button" class="btn btn-outline-light me-2" onclick="location.href='{% url 'logout' %}'">Log Out</button>
+            <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
+
+
+          {% else %}
+            {% comment %} <p>You are not logged in</p>
+            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'signup' %}">Créer un compte</a> {% endcomment %}
+            <button type="button" class="btn btn-outline-light me-2" onclick="location.href='{% url 'login' %}'">Log In</button>
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'signup' %}'">Sign Up</button>
+            <a href="{% url 'password_reset' %}">Mot de passe oublié ?</a>
+          
+            
+
+          {% endif %}
         </div>
+        
+        <img width="100em" height="100em" src="https://media.licdn.com/dms/image/C560BAQFvC6yTQiWa0A/company-logo_200_200/0/1537768689243?e=1695254400&v=beta&t=IMHFE2PV974-a0pN81fjtFdJAVMy6Smbcd_wGEtFDrU" alt="Logo BPN">
+
       </div>
     </div>
-
     {% if user.is_authenticated %}
     <span class="navbar-text">Logged as : {{user.username}} </span>
-    <a href={% url logout%}?next= {{request.path}}>LogOut</a>
+    {% comment %} <a href={% url logout%}?next= {{request.path}}>LogOut</a> {% endcomment %}
     {% else %}
     <p>Not logged in</p>
     {% endif %}

@@ -15,4 +15,31 @@ class TestForm(forms.Form):
 
 class FileFieldForm(forms.Form):
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    
+
+
+structures_list = [
+    ('1', 1),
+    ('2', 2),
+    ('10', 10),
+]
+type_client_list = [
+    ('particulier', 'Particulier'),
+    ('professionnel', 'Professionnel')
+]
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class VerbatimForm(forms.Form):
+    date = forms.DateField(widget=DateInput())
+    type_client = forms.ChoiceField(
+        # required=False,
+        choices=type_client_list      
+        
+    )
+    structure = forms.ChoiceField(
+        # required=False,
+        choices=structures_list
+              
+    )
+    text = forms.CharField(widget=forms.Textarea)

@@ -48,3 +48,17 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
   } */
+
+  .h1-home {
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: black;
+    text-align: center;
+  }
+
+  /* .footer {
+    position:absolute!important;
+    bottom:0%!important;
+    width: 100%!important;
+  } */

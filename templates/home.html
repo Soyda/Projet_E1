@@ -1,15 +1,15 @@
-{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
+  <h1 class = "h1-home">Bonjour {{ user.username }}!</h1>
   <p><a href="{% url 'logout' %}">Log Out</a></p>
   <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
 
 {% else %}
-  <p>You are not logged in</p>
+  <h1 class = "h1-home">Vous n'êtes pas connectés</h1>
   <a href="{% url 'login' %}">Log In</a>
   <a href="{% url 'signup' %}">Créer un compte</a>
   <a href="{% url 'password_reset' %}">Mot de passe oublié ?</a>

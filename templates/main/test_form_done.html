@@ -1,7 +1,19 @@
-
-{% for i in 0|get_range:loop %}
+{% extends 'base.html' %}
+{% block content %}
+{% comment %} {% for i in 0|get_range:loop %}
     {{i}}
     <p>{{name}}</p>
     <p>{{email}}</p>
     <p>{{loop}}</p>
-{% endfor %}
+{% endfor %} {% endcomment %}
+
+<p>{{id}}</p>
+<p>{{str_id}}</p>
+<p>{{verbatim_date}}</p>
+<p>{{type_client}}</p>
+<p>{{verbatim_content}}</p>
+<p>{{verbatim_sentiment}}</p>
+<p>{{verbatim_category}}</p>
+<p>{{upload_date}}</p>
+
+{% endblock %}

@@ -36,6 +36,7 @@ async def root():
 
 @app.post("/add_item/", response_model=schemas.Verbatim)
 def create_verbatim(verbatim: schemas.VerbatimCreate, db: Session = Depends(get_db)):
+    print(verbatim)
     return crud.create_verbatim(db=db, verbatim=verbatim)
 
 @app.get("/verbatim/{verbatim_id}", response_model=schemas.Verbatim)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .forms import TestForm, FileFieldForm
+from .forms import TestForm, FileFieldForm, VerbatimForm
 from django.views.generic.edit import FormView
 from django.template.defaulttags import register
 from django.urls import reverse_lazy
@@ -23,15 +23,37 @@ def login_required_view(request):
     return render(request, 'main/login_required_page.html', {'response': response})
 
 def test_form(request):
-    fm = TestForm(request.POST)
+    # fm = TestForm(request.POST)
+    # if request.method =="POST":
+    #     if fm.is_valid():
+    #         print("name:",fm.cleaned_data["name"]) #// request.POST["name"]
+    #         print("email:",fm.cleaned_data['email'])
+    #         return render(request,'main/test_form_done.html',{'name':fm.cleaned_data["name"],
+    #                                                         'email':fm.cleaned_data['email'],
+    #                                                         'loop': fm.cleaned_data['loop']})
+    # fm = TestForm()
+    # return render(request,'main/test_form.html', {'form':fm})
+    fm = VerbatimForm(request.POST)
     if request.method =="POST":
+        # print(fm)
         if fm.is_valid():
-            print("name:",fm.cleaned_data["name"]) #// request.POST["name"]
-            print("email:",fm.cleaned_data['email'])
-            return render(request,'main/test_form_done.html',{'name':fm.cleaned_data["name"],
-                                                            'email':fm.cleaned_data['email'],
-                                                            'loop': fm.cleaned_data['loop']})
-    fm = TestForm()
+            print("date:",fm.cleaned_data["date"]) #// request.POST["name"]
+            print("type_client:",fm.cleaned_data['type_client'])
+            print("structure:",fm.cleaned_data['structure'])
+            print("text:",fm.cleaned_data['text'])
+
+            item = {'verbatim_date':fm.cleaned_data["date"],
+                'type_client':fm.cleaned_data['type_client'],
+                'str_id': fm.cleaned_data['structure'],
+                'verbatim_content': fm.cleaned_data['text'],
+                }
+            response = requests.post(URL_API+"/add_item/", json=item).json()
+
+            print(response)
+
+            return render(request,'main/test_form_done.html',response)
+        
+    fm = VerbatimForm()
     return render(request,'main/test_form.html', {'form':fm})
 
 # @login_required

@@ -9,7 +9,7 @@ class Verbatim(Base):
     __tablename__ = 'verbatims'
     id = Column(Integer, primary_key=True, index=True)
     str_id = Column(Integer, ForeignKey('structures.id'))
-    upload_date = Column(DateTime, default=datetime.now())
+    upload_date = Column(DateTime) # à changer pour déploiement
     verbatim_date = Column(DateTime)
     verbatim_content = Column(String(length=500))
     verbatim_sentiment = Column(String)
@@ -24,22 +24,4 @@ class Structure(Base):
 
     verbatims = relationship("Verbatim", back_populates="structure")
 
-# class User(Base):
-#     __tablename__ = 'users'
-#     id = Column(Integer, primary_key=True, index=True)
-#     is_admin = Column(Boolean, default=False)
-#     username = Column(String)
-#     hashed_password = Column(String, default="1234")
-
-#     notes = relationship("Note", back_populates="users")
-
-# class Note(Base):
-#     __tablename__ = 'notes'
-#     id = Column(Integer, primary_key=True, index=True)
-#     user_id = Column(Integer, ForeignKey('users.id'))
-#     date = Column(DateTime, default=datetime.date.today().strftime("%d/%m/%Y"))
-#     note_content = Column(String(length=500))
-#     note_sentiment = Column(String)
-
-#     notes = relationship("User", back_populates="notes")
 
