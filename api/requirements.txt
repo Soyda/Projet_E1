@@ -4,5 +4,5 @@ pydantic
 numpy
 uvicorn
 bertopic
-pickle
-torch
+
+# torch

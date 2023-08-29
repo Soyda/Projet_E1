@@ -3,22 +3,20 @@ from pydantic import BaseModel
 import datetime
 from bertopic import BERTopic
 
-import pickle
-import torch
+# import pickle
+# import torch
 
-# Load the BERTopic model
-model_path = 'my_best_model'  # No file extension needed
-with open(model_path, 'rb') as file:
-    loaded_model = pickle.load(file)
 
-# Check if CUDA is available and move tensors to CPU if necessary
-if not torch.cuda.is_available():
-    loaded_model.transformer.model.to('cpu')
-    loaded_model.umap_model_ = loaded_model.umap_model_.to('cpu')
-    loaded_model.reducer = loaded_model.reducer.to('cpu')
+# model_path = 'my_best_model'  
+# with open(model_path, 'rb') as file:
+#     loaded_model = pickle.load(file)
 
-# Now you can use the loaded BERTopic model
-model = BERTopic.load("tuned_model")
+# if not torch.cuda.is_available():
+#     loaded_model.transformer.model.to('cpu')
+#     loaded_model.umap_model_ = loaded_model.umap_model_.to('cpu')
+#     loaded_model.reducer = loaded_model.reducer.to('cpu')
+
+# model = BERTopic.load("tuned_model")
 
 class Item(BaseModel):
     date: str

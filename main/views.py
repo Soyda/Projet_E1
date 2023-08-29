@@ -64,8 +64,8 @@ def test_form(request):
 
 class FileFieldFormView(FormView):
     form_class = FileFieldForm
-    template_name = 'main/add_file.html'  # Replace with your template.
-    success_url = reverse_lazy('main:add_file_done')  # Replace with your URL or reverse().
+    template_name = 'main/add_file.html'  
+    success_url = reverse_lazy('main:add_file_done')  # URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -75,7 +75,7 @@ class FileFieldFormView(FormView):
             uploaded_files = []
 
             for f in files:
-                    # Get the file extension
+                    
                 _, file_extension = os.path.splitext(f.name)
 
                 # Read the first 4 rows of the file using pandas
@@ -111,7 +111,6 @@ def add_file_done(request):
 @login_required
 def see_verbatims(request):
     response = requests.get(f"{URL_API}/verbatims/").json()
-    # response = requests.get(f"{URL_API}/structures/").json()
     df_html = mark_safe(pd.DataFrame(response).to_html())
     return render(request, 'main/see_verbatims.html', {'df_html': df_html})
 
